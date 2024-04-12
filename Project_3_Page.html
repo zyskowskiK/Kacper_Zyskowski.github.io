@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sorting Benchmark</title>
+</head>
+<body>
+    <h1>Project no. 3</h1>
+    <h2>Kacper Zyskowski</h2>
+    <label for="range">Enter the range of numbers (e.g., 1-100):</label>
+    <input type="text" id="range" name="range" placeholder="Enter range">
+    <button onclick="generateAndSort()">Generate & Sort</button>
+    <div id="result"></div>
+
+    <script>
+        // Function to generate a random list of numbers
+        function generateRandomList(min, max, length) {
+            let randomList = [];
+            for (let i = 0; i < length; i++) {
+                randomList.push(Math.floor(Math.random() * (max - min + 1)) + min);
+            }
+            return randomList;
+        }
+
+        // Function to perform Bubble Sort
+        function bubbleSort(arr) {
+            let len = arr.length;
+            for (let i = 0; i < len - 1; i++) {
+                for (let j = 0; j < len - i - 1; j++) {
+                    if (arr[j] > arr[j + 1]) {
+                        let temp = arr[j];
+                        arr[j] = arr[j + 1];
+                        arr[j + 1] = temp;
+                    }
+                }
+            }
+            return arr;
+        }
+
+        // Function to perform Selection Sort
+        function selectionSort(arr) {
+            let len = arr.length;
+            for (let i = 0; i < len - 1; i++) {
+                let minIndex = i;
+                for (let j = i + 1; j < len; j++) {
+                    if (arr[j] < arr[minIndex]) {
+                        minIndex = j;
+                    }
+                }
+                if (minIndex !== i) {
+                    let temp = arr[i];
+                    arr[i] = arr[minIndex];
+                    arr[minIndex] = temp;
+                }
+            }
+            return arr;
+        }
+
+        // Function to measure execution time
+        function measureExecutionTime(callback) {
+            const start = performance.now();
+            callback();
+            const end = performance.now();
+            // Convert the execution time to milliseconds
+            return end - start;
+        }
+
+        function generateAndSort() {
+            const rangeInput = document.getElementById('range').value;
+            const range = rangeInput.split('-').map(Number);
+            const min = range[0];
+            const max = range[1];
+            const length = 1000; // Generate 1000 random numbers for demonstration
+
+            // Generate random list of numbers
+            const randomList = generateRandomList(min, max, length);
+
+            // Bubble Sort
+            const bubbleSortTime = measureExecutionTime(() => {
+                const sortedListBubble = bubbleSort(randomList.slice());
+                // Display the first 20 and last 20 numbers
+                const bubbleSortedNumbers = `
+                    <p>Bubble Sort:</p>
+                    <ul>
+                        <li>First 20: ${sortedListBubble.slice(0, 20).join(', ')}</li>
+                        <li>Last 20: ${sortedListBubble.slice(-20).join(', ')}</li>
+                    </ul>`;
+                document.getElementById('bubble-sort').innerHTML = bubbleSortedNumbers;
+            });
+
+            // Selection Sort
+            const selectionSortTime = measureExecutionTime(() => {
+                const sortedListSelection = selectionSort(randomList.slice());
+                // Display the first 20 and last 20 numbers
+                const selectionSortedNumbers = `
+                    <p>Selection Sort:</p>
+                    <ul>
+                        <li>First 20: ${sortedListSelection.slice(0, 20).join(', ')}</li>
+                        <li>Last 20: ${sortedListSelection.slice(-20).join(', ')}</li>
+                    </ul>`;
+                document.getElementById('selection-sort').innerHTML = selectionSortedNumbers;
+            });
+
+            // Display the execution times
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = `
+                <h2>Execution Times:</h2>
+                <p>Bubble Sort Execution Time: ${bubbleSortTime.toFixed(2)} milliseconds</p>
+                <p>Selection Sort Execution Time: ${selectionSortTime.toFixed(2)} milliseconds</p>
+            `;
+        }
+    </script>
+    <div id="bubble-sort"></div>
+    <div id="selection-sort"></div>
+</body>
+</html>

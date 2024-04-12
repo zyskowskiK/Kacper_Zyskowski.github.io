@@ -1,0 +1,28 @@
+/* CSS styles for the form */
+.form-container {
+  display: table;
+  width: 15%; /* Adjust as needed */
+  border-collapse: collapse; /* Add border-collapse for table borders */
+  border: 1px solid black; /* Add border to the table */
+}
+
+.form-row {
+  display: table-row;
+  border: 1px solid black; /* Add border to each row */
+}
+
+.form-label, .form-input {
+  display: table-cell;
+  padding: 5px;
+  border: 1px solid black; /* Add border to each cell */
+}
+
+.form-input {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.button-cell {
+  display: table-cell;
+  border: 1px solid black; /* Add border to button cell */
+}
