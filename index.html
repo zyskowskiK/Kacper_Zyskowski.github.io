@@ -51,10 +51,10 @@ function setActiveTab(tabId) {
 
 function loadContent(tabId) {
     setActiveTab(tabId);
-    
+
     // Construct the URL for the content to load from GitHub Pages
     const url = `https://zyskowskik.github.io/Kacper_Zyskowski.github.io/Project_${tabId}.html`;
-    
+
     fetch(url)
     .then(response => {
         if (!response.ok) {
@@ -62,13 +62,30 @@ function loadContent(tabId) {
         }
         return response.text();
     })
-    .then(data => {
-        document.getElementById('content').innerHTML = data;
-        document.getElementById('content').style.display = 'block';
+    .then(html => {
+        const contentDiv = document.getElementById('content');
+        contentDiv.innerHTML = html;
+        contentDiv.style.display = 'block';
+
+        // Extract and execute scripts
+        executeScripts(contentDiv);
     })
     .catch(error => {
         console.error('Failed to load content:', error);
         document.getElementById('content').innerHTML = 'Failed to load the project content.';
+    });
+}
+
+function executeScripts(container) {
+    const scripts = container.querySelectorAll('script');
+    scripts.forEach(oldScript => {
+        const newScript = document.createElement('script');
+        newScript.type = oldScript.type;
+        if (oldScript.src) {
+            newScript.src = oldScript.src;
+        }
+        newScript.innerHTML = oldScript.innerHTML;
+        oldScript.parentNode.replaceChild(newScript, oldScript);
     });
 }
 
