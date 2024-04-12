@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <meta charset="UTF-8">
     <title>Project Tabs</title>
     <link rel="stylesheet" type="text/css" href="style.css" />
@@ -24,33 +23,39 @@
         .tab-button.active {
             background-color: #ddd;
         }
+        .hidden {
+            display: none;
+        }
     </style>
 </head>
 <body>
 
 <div id="tabs">
-    <div id="tab1" class="tab-button" onclick="loadContent('1')">Project 1</div>
-    <div id="tab2" class="tab-button" onclick="loadContent('2')">Project 2</div>
-    <div id="tab3" class="tab-button" onclick="loadContent('3')">Project 3</div>
-    <div id="tab4" class="tab-button" onclick="loadContent('4')">Project 4</div>
+    <div id="tab1" class="tab-button" data-tab="1">Project 1</div>
+    <div id="tab2" class="tab-button" data-tab="2">Project 2</div>
+    <div id="tab3" class="tab-button" data-tab="3">Project 3</div>
+    <div id="tab4" class="tab-button" data-tab="4">Project 4</div>
 </div>
 
 <div id="content" class="tab-content">
     <!-- The content from each project will be loaded here -->
 </div>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
-function setActiveTab(tabId) {
-    // Clear 'active' class from all tabs
-    document.querySelectorAll('.tab-button').forEach(tab => {
-        tab.classList.remove('active');
+$(document).ready(function() {
+    $(".tab-button").click(function() {
+        var tabId = $(this).data('tab');
+        loadContent(tabId);
+        setActiveTab(tabId);
     });
-    
-    // Set 'active' class on the selected tab
-    document.getElementById('tab' + tabId).classList.add('active');
-}
 
-function loadContent(tabId) {
+    function setActiveTab(tabId) {
+        $('.tab-button').removeClass('active');
+        $('#tab' + tabId).addClass('active');
+    }
+
+   function loadContent(tabId) {
     setActiveTab(tabId);
 
     // Construct the URL for the content to load from GitHub Pages
@@ -90,9 +95,27 @@ function executeScripts(container) {
     });
 }
 
-// Load the first tab content by default
-loadContent('1');
-</script>
 
+    // On Hover Description
+    $(".tab-button").hover(
+        function() {
+            $(this).append($("<span> Click to view project</span>"));
+        }, function() {
+            $(this).find("span:last").remove();
+        }
+    );
+
+    // Fade in/out example for content
+    $("#content").on("mouseenter", function() {
+        $(this).fadeTo('slow', 0.5);
+    }).on("mouseleave", function() {
+        $(this).fadeTo('slow', 1);
+    });
+
+    // Initial load of content
+    loadContent('1');
+});
+</script>
 </body>
 </html>
+
