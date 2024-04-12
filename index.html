@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Project Tabs</title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
     <style>
         .tab-content {
             display: none;
@@ -52,7 +53,7 @@ function loadContent(tabId) {
     setActiveTab(tabId);
     
     // Construct the URL for the content to load from GitHub Pages
-    const url = `https://zyskowskiK.github.io/Kacper_Zyskowski.github.io/Project_${tabId}.html`;
+    const url = `https://kacper-zyskowski.github.io/Kacper_Zyskowski.github.io/Project_${tabId}.html`;
     
     fetch(url)
     .then(response => {
@@ -77,4 +78,5 @@ loadContent('1');
 
 </body>
 </html>
+
 
