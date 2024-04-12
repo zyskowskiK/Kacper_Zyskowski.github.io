@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>AJAX Tabs Example</title>
+    <title>AJAX Tabs</title>
     <style>
         .tab-content {
             border: 1px solid #ccc;
@@ -52,7 +52,7 @@ function loadContent(projectNumber) {
     setActiveTab(projectNumber);
 
     // Fetch the content of the HTML file from the GitHub Pages hosted site
-    const filePath = `https://<your-github-username>.github.io/<repository-name>/Project_${projectNumber}`;
+    const filePath = `https://Kacper_Zyskowski.github.io/main/Project_${projectNumber}`;
     fetch(filePath)
         .then(response => {
             if (!response.ok) {
