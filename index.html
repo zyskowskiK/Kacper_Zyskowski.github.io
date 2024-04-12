@@ -51,8 +51,8 @@ function setActiveTab(tabId) {
 function loadContent(tabId) {
     setActiveTab(tabId);
     
-    // Assuming your GitHub username is 'Kacper_Zyskowski' and the repository name is 'github.io'
-    const url = `https://zyskowskiK.Kacper_Zyskowski/github.io/Project_${tabId}.html`;
+    // Construct the URL for the content to load from GitHub Pages
+    const url = `https://zyskowskiK.github.io/Kacper_Zyskowski.github.io/Project_${tabId}.html`;
     
     fetch(url)
     .then(response => {
@@ -77,3 +77,4 @@ loadContent('1');
 
 </body>
 </html>
+
