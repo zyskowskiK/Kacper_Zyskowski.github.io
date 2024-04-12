@@ -52,7 +52,7 @@ function loadContent(projectNumber) {
     setActiveTab(projectNumber);
 
     // Fetch the content of the HTML file from the GitHub Pages hosted site
-    const filePath = `https://<your-github-username>.github.io/<repository-name>/Project_${projectNumber}.html`;
+    const filePath = `https://<your-github-username>.github.io/<repository-name>/Project_${projectNumber}`;
     fetch(filePath)
         .then(response => {
             if (!response.ok) {
