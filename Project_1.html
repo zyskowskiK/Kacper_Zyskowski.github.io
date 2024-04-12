@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+table {
+  border: 1px solid black;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid black;
+  text-align: center;
+  padding: 10px;
+}
+
+input[type="text"], select {
+  width: 100%;
+  box-sizing: border-box;
+}
+}
+
+</style>
+</head>
+<body>
+<h1>Project no. 1</h1>
+<h2>Kacper Zyskowski</h2>
+<table>
+  <tr>
+    <td>First Name</td>
+    <td><input type="text" id="firstName"></td>
+  </tr>
+  <tr>
+    <td>Last Name</td>
+    <td><input type="text" id="lastName"></td>
+  </tr>
+  <tr>
+    <td>Age</td>
+    <td><input type="number" id="age" min="0"></td>
+  </tr>
+  <tr>
+    <td>Sex</td>
+    <td>
+      <select id="sex">
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td>Hobby</td>
+    <td><input type="text" id="hobby"></td>
+  </tr>
+  <tr>
+    <td><button onclick="submitForm()">OK</button></td>
+    <td><button onclick="clearForm()">Cancel</button></td>
+  </tr>
+</table>
+
+<script>
+  var popupWindow; // Global variable to hold the reference to the popup window
+
+  function submitForm() {
+      var firstName = document.getElementById("firstName").value;
+      var lastName = document.getElementById("lastName").value;
+      var age = document.getElementById("age").value;
+      var sex = document.getElementById("sex").value;
+      var hobby = document.getElementById("hobby").value;
+
+      var tableData = {
+          "First Name": firstName,
+          "Last Name": lastName,
+          "Age": age,
+          "Sex": sex,
+          "Hobby": hobby
+      };
+
+      var tableDataString = "";
+      for (var key in tableData) {
+          tableDataString += "<b>" + key + ":</b> " + tableData[key] + "<br>";
+      }
+
+      popupWindow = window.open("", "_blank", "width=400,height=400");
+      popupWindow.document.write("<h2>Table Data</h2>" + tableDataString);
+  }
+
+  function clearForm() {
+      // Close the popup window if it's open
+      if (popupWindow && !popupWindow.closed) {
+          popupWindow.close();
+      }
+
+      document.getElementById("firstName").value = "";
+      document.getElementById("lastName").value = "";
+      document.getElementById("age").value = "";
+      document.getElementById("sex").value = "male"; 
+      document.getElementById("hobby").value = "";
+  }
+</script>
+
+</body>
+</html>

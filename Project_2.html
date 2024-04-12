@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<body>
+<h1>Project no. 2</h1>
+<h2>Kacper Zyskowski</h2>
+
+<div class="form-container">
+    <div class="form-row">
+        <div class="form-label">First Name:</div>
+        <div class="form-input"><input type="text" id="firstName"></div>
+    </div>
+    <div class="form-row">
+        <div class="form-label">Last Name:</div>
+        <div class="form-input"><input type="text" id="lastName"></div>
+    </div>
+    <div class="form-row">
+        <div class="form-label">Age:</div>
+        <div class="form-input"><input type="text" id="age"></div>
+    </div>
+    <div class="form-row">
+        <div class="form-label">Sex:</div>
+        <div class="form-input">
+            <select id="sex">
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-label">Hobby:</div>
+        <div class="form-input"><input type="text" id="hobby"></div>
+    </div>
+    <div class="form-row">
+        <div class="button-cell"><button onclick="submitForm()">OK</button></div>
+        <div class="button-cell"><button onclick="clearForm()">Cancel</button></div>
+    </div>
+</div>
+
+<script>
+function submitForm() {
+    var firstName = document.getElementById("firstName").value;
+    var lastName = document.getElementById("lastName").value;
+    var age = document.getElementById("age").value;
+    var sex = document.getElementById("sex").value;
+    var hobby = document.getElementById("hobby").value;
+
+    var tableData = {
+        "First Name": firstName,
+        "Last Name": lastName,
+        "Age": age,
+        "Sex": sex,
+        "Hobby": hobby
+    };
+
+    var tableDataString = "";
+    for (var key in tableData) {
+        tableDataString += "<b>" + key + ":</b> " + tableData[key] + "<br>";
+    }
+
+    var popupWindow = window.open("", "_blank", "width=400,height=400");
+    popupWindow.document.write("<h2>Table Data</h2>" + tableDataString);
+}
+
+function clearForm() {
+    document.getElementById("firstName").value = "";
+    document.getElementById("lastName").value = "";
+    document.getElementById("age").value = "";
+    document.getElementById("sex").value = "male";
+    document.getElementById("hobby").value = "";
+}
+</script>
+
+</body>
+</html>
