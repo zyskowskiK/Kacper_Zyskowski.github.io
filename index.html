@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>AJAX Tabs</title>
+    <title>Project Tabs</title>
     <style>
         .tab-content {
+            display: none;
             border: 1px solid #ccc;
             padding: 10px;
             background-color: #fafad2;
             margin-top: 5px;
-            display: none; /* Start with all content hidden */
         }
         .tab-button {
             display: inline-block;
@@ -34,43 +34,44 @@
 </div>
 
 <div id="content" class="tab-content">
-    <!-- Content loaded by AJAX will be displayed here -->
+    <!-- The content from each project will be loaded here -->
 </div>
 
 <script>
-function setActiveTab(tabNumber) {
-    // Remove the 'active' class from all tabs
+function setActiveTab(tabId) {
+    // Clear 'active' class from all tabs
     document.querySelectorAll('.tab-button').forEach(tab => {
         tab.classList.remove('active');
     });
-
-    // Add the 'active' class to the current tab
-    document.getElementById('tab' + tabNumber).classList.add('active');
+    
+    // Set 'active' class on the selected tab
+    document.getElementById('tab' + tabId).classList.add('active');
 }
 
-function loadContent(projectNumber) {
-    setActiveTab(projectNumber);
-
-    // Fetch the content of the HTML file from the GitHub Pages hosted site
-    const filePath = `https://Kacper_Zyskowski.github.io/main/Project_1`;
-    fetch(filePath)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.text();
-        })
-        .then(html => {
-            document.getElementById('content').innerHTML = html;
-            document.getElementById('content').style.display = 'block';
-        })
-        .catch(error => {
-            console.error('Error fetching content:', error);
-            document.getElementById('content').innerHTML = 'Content could not be loaded.';
-        });
+function loadContent(tabId) {
+    setActiveTab(tabId);
+    
+    // Assuming your GitHub username is 'Kacper_Zyskowski' and the repository name is 'github.io'
+    const url = `https://Kacper_Zyskowski.github.io/github.io/Project_${tabId}.html`;
+    
+    fetch(url)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.text();
+    })
+    .then(data => {
+        document.getElementById('content').innerHTML = data;
+        document.getElementById('content').style.display = 'block';
+    })
+    .catch(error => {
+        console.error('Failed to load content:', error);
+        document.getElementById('content').innerHTML = 'Failed to load the project content.';
+    });
 }
 
-// Optionally load the first tab on page load
+// Load the first tab content by default
 loadContent('1');
 </script>
 
