@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
     <meta charset="UTF-8">
     <title>Project Tabs</title>
     <link rel="stylesheet" type="text/css" href="style.css" />
@@ -30,6 +34,8 @@
 </head>
 <body>
 
+<div id="menuContainer"></div> <!-- Container for the dynamic menu -->
+
 <div id="tabs">
     <div id="tab1" class="tab-button" data-tab="1">Project 1</div>
     <div id="tab2" class="tab-button" data-tab="2">Project 2</div>
@@ -41,76 +47,77 @@
     <!-- The content from each project will be loaded here -->
 </div>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<div id="dialog" title="Additional Information" style="display: none;">
+    <!-- Content for the dialog will be added here -->
+</div>
+
 <script>
 $(document).ready(function() {
+    // Define JSON data for the menu
+    var menuData = [
+        {"name": "Home", "link": "#home", "info": "Welcome to our homepage."},
+        {"name": "About", "link": "#about", "info": "Learn more about us."},
+        {"name": "Contact", "link": "#contact", "info": "How to contact us."}
+    ];
+
+    // Build the menu from JSON data
+    var $menu = $("<ul></ul>").appendTo("#menuContainer");
+    $.each(menuData, function(i, item) {
+        $("<li></li>").append(
+            $("<a></a>").text(item.name).attr("href", item.link)
+            .click(function(e) {
+                e.preventDefault();
+                $("#dialog").html(item.info).dialog("open");
+            })
+        ).appendTo($menu);
+    });
+
+    // Initialize the dialog
+    $("#dialog").dialog({
+        autoOpen: false,
+        width: 400,
+        modal: true,
+        buttons: {
+            Ok: function() {
+                $(this).dialog("close");
+            }
+        }
+    });
+
     $(".tab-button").click(function() {
         var tabId = $(this).data('tab');
         loadContent(tabId);
         setActiveTab(tabId);
-    });
+    }).hover(
+        function() { $(this).fadeTo('fast', 0.5); },
+        function() { $(this).fadeTo('fast', 1); }
+    );
 
     function setActiveTab(tabId) {
         $('.tab-button').removeClass('active');
         $('#tab' + tabId).addClass('active');
     }
 
-   function loadContent(tabId) {
-    setActiveTab(tabId);
-
-    // Construct the URL for the content to load from GitHub Pages
-    const url = `https://zyskowskik.github.io/Kacper_Zyskowski.github.io/Project_${tabId}.html`;
-
-    fetch(url)
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.text();
-    })
-    .then(html => {
-        const contentDiv = document.getElementById('content');
-        contentDiv.innerHTML = html;
-        contentDiv.style.display = 'block';
-
-        // Extract and execute scripts
-        executeScripts(contentDiv);
-    })
-    .catch(error => {
-        console.error('Failed to load content:', error);
-        document.getElementById('content').innerHTML = 'Failed to load the project content.';
-    });
-}
-
-function executeScripts(container) {
-    const scripts = container.querySelectorAll('script');
-    scripts.forEach(oldScript => {
-        const newScript = document.createElement('script');
-        newScript.type = oldScript.type;
-        if (oldScript.src) {
-            newScript.src = oldScript.src;
-        }
-        newScript.innerHTML = oldScript.innerHTML;
-        oldScript.parentNode.replaceChild(newScript, oldScript);
-    });
-}
-
-
-    // On Hover Description
-    $(".tab-button").hover(
-        function() {
-            $(this).append($("<span> Click to view project</span>"));
-        }, function() {
-            $(this).find("span:last").remove();
-        }
-    );
-
-    // Fade in/out example for content
-    $(".tab-button").on("mouseenter", function() {
-        $(this).fadeTo('slow', 0.5);
-    }).on("mouseleave", function() {
-        $(this).fadeTo('slow', 1);
-    });
+    function loadContent(tabId) {
+        setActiveTab(tabId);
+        const url = `https://zyskowskik.github.io/Kacper_Zyskowski.github.io/Project_${tabId}.html`;
+        fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.text();
+        })
+        .then(html => {
+            const contentDiv = document.getElementById('content');
+            contentDiv.innerHTML = html;
+            contentDiv.style.display = 'block';
+        })
+        .catch(error => {
+            console.error('Failed to load content:', error);
+            document.getElementById('content').innerHTML = 'Failed to load the project content.';
+        });
+    }
 
     // Initial load of content
     loadContent('1');
@@ -118,4 +125,5 @@ function executeScripts(container) {
 </script>
 </body>
 </html>
+
 
